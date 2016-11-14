@@ -1,0 +1,7 @@
+Create config.js file and add the following:
+
+angular.module('inspinia').constant('envConfig', {
+    'mainApiUrl': 'http://swtran-crm-api.local/api',
+    'userDatepickerDateFormat': 'mm/dd/yyyy'
+});
+

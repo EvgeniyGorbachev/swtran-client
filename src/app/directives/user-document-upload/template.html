@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-md-4">
+        <h3 ng-transclude></h3>
+    </div>
+
+    <div class="col-md-5">
+        <div>
+            {{ f.name }}
+            <p class="text-danger"> 
+                {{ errFile.name }}
+                <span class="text-danger" ng-if="errFile.$error || errFile.$errorParam"> 
+                &nbsp;&nbsp; 
+                (<b>{{ errFile.$error }} {{ errFile.$errorParam }} </b>).
+            </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <button class="btn btn-success " type="button"
+                type="file"
+                ngf-select="uploadFiles($file, $invalidFiles)"
+                accept="image/*"
+                ngf-max-height="1000"
+                ngf-max-size="1MB">
+            <i class="fa fa-upload"></i>
+            &nbsp;&nbsp;
+            <span class="bold">Upload</span>
+        </button>
+    </div>
+</div>

@@ -43,7 +43,7 @@ angular
                 dataToSend.role_id        = parseInt(dataToSend.role_id, 10);
                 dataToSend.mobile_phone   = parseInt(dataToSend.mobile_phone, 10);
                 dataToSend.working_status = parseInt(dataToSend.working_status, 10);
-                dataToSend.password       = parseInt(dataToSend.password, 10);
+                dataToSend.password       = dataToSend.password;
                 dataToSend.personal_id    = parseInt(dataToSend.personal_id, 10);
 
                 //set timestamp
@@ -55,6 +55,7 @@ angular
                 return dataToSend;
             },
             current: {},
+            uploadUrl: '/user/upload',
             roles: {},
             sortFlag: true,
             objectTemplate: {

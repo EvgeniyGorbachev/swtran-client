@@ -42,6 +42,8 @@
                             location.href = '/login';
                         }
 
+                        toastr.error('Server error.', 'Error!');
+
                         return $q.reject(response);
                     }
                 };

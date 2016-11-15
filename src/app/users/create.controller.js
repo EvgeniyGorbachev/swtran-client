@@ -1,14 +1,15 @@
 'use strict';
 
 angular.module('inspinia')
-    .controller('CreateController', function ($rootScope, user) {
+    .controller('CreateController', function ($rootScope, user, $state) {
         var vm = this;
+        vm.step = 1;
         vm.userData = user.objectTemplate;
-        
+        vm.registeredUser = null;
         user.getAllRoles().then(function (response) {
             var roles = response.data.userRoles;
             //delete admin and manager role not for the admin
-            if ($rootScope.currentUser.role_id != 1) {
+            if ($rootScope.currentUser && $rootScope.currentUser.role_id != 1) {
                 roles.splice(0, 2);
             }
             vm.userRoles = roles;
@@ -21,6 +22,8 @@ angular.module('inspinia')
             }
             
             user.register(vm.userData).then(function (response) {
+                vm.registeredUser = response.data.user;
+                vm.step = 2;
                 toastr.success('New user created.', 'Successfully!');
             },function (response) {
                 if (response.data.errors && response.data.errors.personal_id) {
@@ -31,5 +34,5 @@ angular.module('inspinia')
         
         vm.setPassword = function () {
             vm.userData.password = (vm.userData.role_id == 4)? vm.userData.personal_id: user.generatePassword();
-        }
+        };
     });

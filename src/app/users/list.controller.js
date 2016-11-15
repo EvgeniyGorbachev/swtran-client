@@ -24,4 +24,9 @@ angular.module('inspinia')
           });
       };
 
+      vm.createUser = function () {
+          //hack, need to reload create controller $state.go('index.usersCreate', {}, {reload: true}) - doesnt work
+          location.href='/user/create';
+      };
+
   });

@@ -14,7 +14,7 @@
                                 <h3>{{ usersList.members.length }} users.</h3>
                             </div>
                             <div class="col-sm-2 pull-right">
-                                <a ng-click="usersList.createUser()" class="btn btn-success pull-right" type="button">
+                                <a ng-if="isAllowed('create-user')" ng-click="usersList.createUser()" class="btn btn-success pull-right" type="button">
                                     <i class="fa fa-plus"></i>&nbsp;&nbsp;
                                     <span class="bold">Add</span>
                                 </a>
@@ -48,7 +48,7 @@
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-primary">Edit</button>
-                                        <delete-user user-id="{{ member.id }}">Delete</delete-user>
+                                        <delete-user ng-if="isAllowed('delete-user')" user-id="{{ member.id }}">Delete</delete-user>
                                     </td>
                                 </tr>
                             </tbody>

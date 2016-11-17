@@ -6,9 +6,7 @@ angular
                 var deferred = $q.defer();
                 user.login({personal_id: id, password: password}).then(function (response) {
                     storageService.setBearer(response.data.token);
-                    user.current = response.data.user;
-                    this.isLogged = true;
-                    location.href = '/users';
+                    location.href = '/user/profile';
                 }, function (response) {
                     deferred.resolve(response.data.errors);
                 });
@@ -17,7 +15,6 @@ angular
             isLogged: false,
             logout: function () {
                 storageService.deleteBearer();
-                this.isLogged = false;
                 location.href = '/login';
             },
             isBearerSet: function () {

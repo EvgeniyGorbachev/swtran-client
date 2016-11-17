@@ -38,8 +38,8 @@
                         }
 
                         if(response.status == -1) {
-                            storageServiceProvider.deleteBearer();
-                            location.href = '/login';
+                            // storageServiceProvider.deleteBearer();
+                            // location.href = '/login';
                         }
 
                         toastr.error('Server error.', 'Error!');
@@ -59,11 +59,6 @@
         if (storageService.getBearer()) {
             //in .run method we need set header again for request below, hack
             Restangular.setDefaultHeaders({Authorization: storageService.getFullBearer()});
-
-            user.getAllRoles().then(function (response) {
-                user.roles = response.data.userRoles;
-                $rootScope.userRoles = response.data.userRoles;
-            });
             
             user.getPersonalData().then(function (response) {
                 //set data in model
@@ -72,9 +67,22 @@
                 
                 //set data to global scope
                 $rootScope.currentUser = response.data.user;
+
+                //init global permission function
+                $rootScope.isAllowed = function (permission) {
+                    var foundPermission = $.grep($rootScope.currentUser.permissions, function(e){ return e.name == permission; });
+                    return foundPermission.length != 0;
+                };
+                
             }, function (response) {
                 authorizationService.logout();
             });
+
+            user.getAllRoles().then(function (response) {
+                user.roles = response.data.userRoles;
+                $rootScope.userRoles = response.data.userRoles;
+            });
+            
         } else {
             
         }
@@ -94,13 +102,10 @@
                     if ($rootScope.currentUser != null) {
                         //stop interval if data responsed
                         clearInterval(intervalId);
-                        
-                        var userPermissions = $rootScope.currentUser.permissions;
 
                         //check for users permissions
                         if (curentStatePermission) {
-                            var userPermForCurrentPage = $.grep(userPermissions, function(e){ return e.name == curentStatePermission; });
-                            if (userPermForCurrentPage.length == 0) {
+                            if ( !$rootScope.isAllowed(curentStatePermission)) {
                                 e.preventDefault();
                                 $state.go('index.userProfile');
                             }

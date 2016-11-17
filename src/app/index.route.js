@@ -41,7 +41,7 @@
         controllerAs: 'usersList',
         data: {
             pageTitle: 'Users',
-            permission: null,
+            permission: 'view-user-list',
             requireLogin: true
         }
       })

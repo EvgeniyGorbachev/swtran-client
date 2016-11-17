@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('inspinia')
-  .controller('UserController', function ($rootScope, user, $state) {
+  .controller('UserController', function ($rootScope, user, $state, $window) {
     var vm = this;
       vm.members = {};
       vm.sortDirection = true;
@@ -26,11 +26,14 @@ angular.module('inspinia')
 
       vm.createUser = function () {
           //hack, need to reload create controller 
-          location.href='/user/create';
           //doesnt work
           // $state.transitionTo('index.usersCreate', {}, { reload: true, inherit: true, notify: true });
           // $state.go('index.usersCreate', {}, { reload: 'index.usersCreate' })
           // $state.go('index.usersCreate', {}, {reload: true, inherit: false});
+          // $state.go('index.usersCreate', {}, {reload: true, location:'replace'});
+
+          var url = $state.href("index.usersCreate", {}, {absolute: true});
+          $window.location.href = url;
       };
 
   });

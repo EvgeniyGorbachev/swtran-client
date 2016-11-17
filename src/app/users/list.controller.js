@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('inspinia')
-  .controller('UserController', function ($rootScope, user, $state, $window) {
+  .controller('UserController', function ($rootScope, user, $state, $window, $uibModal, $scope) {
     var vm = this;
       vm.members = {};
       vm.sortDirection = true;
+      vm.currentDeletedUserId = null;
 
       if (!$rootScope.userRoles) {
           user.getAllRoles().then(function (response) {

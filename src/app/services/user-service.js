@@ -14,6 +14,9 @@ angular
             getAllRoles: function () {
                 return Restangular.one('user/roles').get();
             },
+            delete: function (id) {
+                return Restangular.one('user', id).remove();
+            },
             register: function (data) {
                 var baseAccounts = Restangular.all('user/register');
                 return baseAccounts.post(this.prepareDataToSave(data));

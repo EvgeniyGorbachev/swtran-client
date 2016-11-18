@@ -24,17 +24,4 @@ angular.module('inspinia')
               vm.members = response.data.users;
           });
       };
-
-      vm.createUser = function () {
-          //hack, need to reload create controller 
-          //doesnt work
-          // $state.transitionTo('index.usersCreate', {}, { reload: true, inherit: true, notify: true });
-          // $state.go('index.usersCreate', {}, { reload: 'index.usersCreate' })
-          // $state.go('index.usersCreate', {}, {reload: true, inherit: false});
-          // $state.go('index.usersCreate', {}, {reload: true, location:'replace'});
-
-          var url = $state.href("index.usersCreate", {}, {absolute: true});
-          $window.location.href = url;
-      };
-
   });

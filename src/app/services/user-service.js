@@ -28,6 +28,9 @@ angular
             generatePassword: function () {
                 return Math.random().toString(36).slice(-8);
             },
+            getTemplate: function () {
+                return angular.copy(this.objectTemplate);
+            },
             sortAllUsers: function (fieldName) {
                 var query = {};
                 this.sortFlag = !this.sortFlag;

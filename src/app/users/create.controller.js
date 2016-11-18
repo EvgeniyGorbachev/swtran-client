@@ -4,8 +4,9 @@ angular.module('inspinia')
     .controller('CreateController', function ($rootScope, user, $state) {
         var vm = this;
         vm.step = 1;
-        vm.userData = user.objectTemplate;
         vm.registeredUser = null;
+        vm.userData = user.getTemplate();
+        
         user.getAllRoles().then(function (response) {
             var roles = response.data.userRoles;
             //delete admin and manager role not for the admin

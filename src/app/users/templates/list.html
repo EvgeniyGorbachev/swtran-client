@@ -14,7 +14,7 @@
                                 <h3>{{ usersList.members.length }} users.</h3>
                             </div>
                             <div class="col-sm-2 pull-right">
-                                <a ng-if="isAllowed('create-user')" ng-click="usersList.createUser()" class="btn btn-success pull-right" type="button">
+                                <a ng-if="isAllowed('create-user')" ui-sref="index.usersCreate" class="btn btn-success pull-right" type="button">
                                     <i class="fa fa-plus"></i>&nbsp;&nbsp;
                                     <span class="bold">Add</span>
                                 </a>

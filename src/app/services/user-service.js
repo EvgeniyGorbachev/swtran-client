@@ -31,12 +31,9 @@ angular
             getTemplate: function () {
                 return angular.copy(this.objectTemplate);
             },
-            sortAllUsers: function (fieldName) {
-                var query = {};
+            setSortField: function (fieldName) {
                 this.sortFlag = !this.sortFlag;
-                query['sort'] = (this.sortFlag)? fieldName: '-' + fieldName;
-                
-                return this.getAllUsers(query);
+                return (this.sortFlag)? fieldName: '-' + fieldName;
             },
             prepareDataToSave: function (data) {
                 var dataToSend = angular.copy(data);

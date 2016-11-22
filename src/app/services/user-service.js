@@ -34,8 +34,7 @@ angular
             sortAllUsers: function (fieldName) {
                 var query = {};
                 this.sortFlag = !this.sortFlag;
-                var sortDirection = (this.sortFlag)? 'sortAsc': 'sortDesc';
-                query[sortDirection] = fieldName;
+                query['sort'] = (this.sortFlag)? fieldName: '-' + fieldName;
                 
                 return this.getAllUsers(query);
             },

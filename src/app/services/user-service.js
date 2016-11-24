@@ -1,29 +1,33 @@
 angular
     .module('inspinia')
-    .factory('user', ['storageService', 'Restangular', '$q', function(storageService, Restangular, $q) {
+    .factory('user', ['storageService', 'Restangular', '$q', 'envConfig', function(storageService, Restangular, $q, envConfig) {
         return {
             login: function (object) {
                 return Restangular.all('auth/login').post(object);
             },
             getPersonalData: function () {
-                return Restangular.one('user', 'personal').get();
+                return Restangular.one('user/info/personal').get();
             },
             getAllUsers: function (query) {
                 return Restangular.one('user').get(query);
             },
             getAllRoles: function () {
-                return Restangular.one('user/roles').get();
+                return Restangular.one('user/info/roles').get();
+            },
+            get: function (id) {
+                return Restangular.one('user/' + id).get();
+            },
+            save: function (data) {
+                return Restangular.all('user').customPUT(this.prepareDataToSave(data));
             },
             delete: function (id) {
                 return Restangular.one('user', id).remove();
             },
             register: function (data) {
-                var baseAccounts = Restangular.all('user/register');
-                return baseAccounts.post(this.prepareDataToSave(data));
+                return Restangular.all('user').post(this.prepareDataToSave(data));
             },
             checkLogin: function (data) {
-                var baseAccounts = Restangular.all('user/check-login');
-                return baseAccounts.post(this.prepareDataToSave(data));
+                return Restangular.all('user/check-login').post(this.prepareDataToSave(data));
             },
             generatePassword: function () {
                 return Math.random().toString(36).slice(-8);
@@ -55,6 +59,16 @@ angular
                 dataToSend.term_date   = moment(dataToSend.term_date).unix();
                 
                 return dataToSend;
+            },
+            prepareDataToView: function (data) {
+                var dataToView = angular.copy(data);
+                //set date
+                dataToView.dl_exp_date = (dataToView.dl_exp_date != 0) ? moment.unix(dataToView.dl_exp_date).format(envConfig.userDatepickerDateFormatForMoment): null;
+                dataToView.mc_exp_date = (dataToView.mc_exp_date != 0) ? moment.unix(dataToView.mc_exp_date).format(envConfig.userDatepickerDateFormatForMoment): null;
+                dataToView.hire_date   = (dataToView.hire_date != 0) ? moment.unix(dataToView.hire_date).format(envConfig.userDatepickerDateFormatForMoment): null;
+                dataToView.term_date   = (dataToView.term_date != 0) ? moment.unix(dataToView.term_date).format(envConfig.userDatepickerDateFormatForMoment): null;
+                
+                return dataToView;
             },
             current: {},
             uploadUrl: '/user/upload',

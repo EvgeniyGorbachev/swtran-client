@@ -75,7 +75,7 @@
                                         <span class="label" ng-show="member.working_status == 0">Inactive</span>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-warning">Edit</button>
+                                        <button ui-sref="index.usersEdit({id: member.id})" type="button" class="btn btn-sm btn-warning">Edit</button>
                                         <delete-user ng-if="isAllowed('delete-user')" user-id="{{ member.id }}">Delete</delete-user>
                                     </td>
                                 </tr>

@@ -3,7 +3,8 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Create user</h5>
+                    <h5 ng-if="!userCreate.isEditState()">Create user</h5>
+                    <h5 ng-if="userCreate.isEditState()">Edit user</h5>
                 </div>
                 <div class="ibox-content">
                     <div ng-switch="userCreate.step">
@@ -15,9 +16,9 @@
                                     <div class="col-sm-3">
                                         <select class="form-control m-b" name="role"
                                                 ng-required="true"
+                                                ng-options="role.id as role.display_name for role in userCreate.userRoles"
                                                 ng-change="userCreate.setPassword(); userCreate.form.$submitted = false;" 
                                                 ng-model="userCreate.userData.role_id">
-                                            <option ng-repeat="role in userCreate.userRoles" value="{{ role.id }}">{{ role.display_name }}</option>
                                         </select>
                                         <label ng-show="userCreate.form.$submitted && userCreate.form.role.$error.required" class="error">This field is required.</label>
                                     </div>
@@ -28,11 +29,11 @@
         
                                 <div class="hr-line-dashed"></div>
                                 
-                                <div class="form-group" ng-class="{'has-error': (userCreate.form.personal_id.$error.uniqueLogin || (userCreate.form.$submitted  && userCreate.form.personal_id.$error.required))}">
+                                <div class="form-group" ng-class="{'has-error': ( (!userCreate.isEditState() && userCreate.form.personal_id.$error.uniqueLogin) || (userCreate.form.$submitted  && userCreate.form.personal_id.$error.required))}">
                                     <label class="col-sm-2 control-label">Fedex ID/Login</label>
                 
                                     <div class="col-sm-10">
-                                        <div class="row">
+                                        <div class="row" ng-if="!userCreate.isEditState()">
                                             <div class="col-md-3">
                                                 <input name="personal_id" type="text" placeholder="58965247" class="form-control"
                                                        unique-login
@@ -45,6 +46,14 @@
                                             </div>
                                             <div class="col-md-9">
                                                 <label ng-show="userCreate.form.personal_id.$error.uniqueLogin" class="error">This Fedex Id\login already exists, choose another!</label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row" ng-if="userCreate.isEditState()">
+                                            <div class="col-md-3">
+                                                <input name="personal_id" type="text" placeholder="58965247" class="form-control"
+                                                       readonly
+                                                       ng-model="userCreate.userData.personal_id">
                                             </div>
                                         </div>
                                     </div>
@@ -255,7 +264,8 @@
                                     </div>
                                 </div>
         
-                                <button ng-click="userCreate.saveUser()" ng-if="!userCreate.registeredUser" type="submit" class="btn btn-w-m btn-primary">Create user</button>
+                                <button ng-click="userCreate.saveUser()" ng-if="!userCreate.isEditState()" type="submit" class="btn btn-w-m btn-primary">Create user</button>
+                                <button ng-click="userCreate.editUser()" ng-if="userCreate.isEditState()" type="submit" class="btn btn-w-m btn-primary">Edit user</button>
         
                             </form>
                         </div>

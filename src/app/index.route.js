@@ -56,6 +56,17 @@
             requireLogin: true
         }
       })
+      .state('index.usersEdit', {
+        url: "/user/edit/:id",
+        templateUrl: "app/users/templates/create.html",
+        controller: 'CreateController',
+        controllerAs: 'userCreate',
+        data: {
+            pageTitle: 'Edit user',
+            permission: 'edit-user',
+            requireLogin: true
+        }
+      })
       .state('index.userProfile', {
         url: "/user/profile",
         templateUrl: "app/users/templates/profile.html",

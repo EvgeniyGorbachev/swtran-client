@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('inspinia')
-    .controller('CreateController', function ($rootScope, user, $state) {
+    .controller('CreateController', function ($rootScope, user, $stateParams) {
         var vm = this;
+
+        vm.userId = $stateParams.id || null;
         vm.step = 1;
         vm.registeredUser = null;
         vm.userData = user.getTemplate();
@@ -14,7 +16,13 @@ angular.module('inspinia')
                 roles.splice(0, 2);
             }
             vm.userRoles = roles;
-        });
+        }); 
+        
+        if (vm.userId) {
+            user.get(vm.userId).then(function (response) {
+                vm.userData = user.prepareDataToView(response.data.user);
+            });
+        }
 
         vm.saveUser = function () {
 
@@ -33,7 +41,24 @@ angular.module('inspinia')
             });
         };
         
+        vm.editUser = function () {
+            vm.form.personal_id.$error.uniqueLogin = true;
+            if (!vm.form.$valid) {
+                return false;
+            }
+            user.save(vm.userData).then(function (response) {
+                toastr.success('User data saved.', 'Successfully!');
+            },function (response) {
+                toastr.error('Error', 'Error!');
+            });
+        };
+        
         vm.setPassword = function () {
+            if (vm.userId) return false;
             vm.userData.password = (vm.userData.role_id == 4)? vm.userData.personal_id: user.generatePassword();
+        };
+        
+        vm.isEditState = function () {
+            return Boolean(vm.userId);
         };
     });
